@@ -1,0 +1,16 @@
+show by:
+- neighborhood
+- supervisor district
+- precinct
+- census tract?
+
+census tracts
+election precincts
+neighborhoods - planning dept
+neighborhoods - sffind
+neighborhoods - health dept
+supervisor districts
+zip codes
+city assessor lots (blocklots)
+
+topojson elect_precincts.geo.json -o elect_precincts.topo.json --id-property prec_2012 --simplify-proportion 0.5

@@ -1,0 +1,139 @@
+/* general */
+body {
+  /* background: #000000; */
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+path {
+  fill: none;
+  stroke: #000;
+}
+
+
+
+/* tooltip */
+#tooltip {
+  position: absolute;
+  /*width: 200px;*/
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgb(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+#tooltip span {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+/* structure */
+.chart-container {
+  /*width: 650px;*/
+  /*height: 650px;*/
+  /*background-color: #e8e8e8;*/
+  display: inline-block;
+}
+
+.about {
+  font-size: .7em;
+}
+
+#map_container {
+  /*height: 500px;*/
+}
+
+/* osm road map */
+.major_road {
+  stroke: #444;
+}
+.minor_road {
+  stroke: #bbb;
+}
+.highway {
+  stroke: #111;
+  stroke-width: 1.5px;
+}
+
+/* neighborhood map */
+.neighborhood {
+  fill: rgb(177, 168, 153, 0.5);
+  stroke: #383838;
+}
+.neighborhood:hover {
+  fill: rgb(247, 91, 68, 0.5);
+}
+
+/* colors */
+.blue.q0-9 {fill: #f7fbff;}
+.blue.q1-9 {fill: #deebf7;}
+.blue.q2-9 {fill: #c6dbef;}
+.blue.q3-9 {fill: #9ecae1;}
+.blue.q4-9 {fill: #6baed6;}
+.blue.q5-9 {fill: #4292c6;}
+.blue.q6-9 {fill: #2171b5;}
+.blue.q7-9 {fill: #08519c;}
+.blue.q8-9 {fill: #08306b;}
+.red.q0-9 {fill: #fff5f0;}
+.red.q1-9 {fill: #fee0d2;}
+.red.q2-9 {fill: #fcbba1;}
+.red.q3-9 {fill: #fc9272;}
+.red.q4-9 {fill: #fb6a4a;}
+.red.q5-9 {fill: #ef3b2c;}
+.red.q6-9 {fill: #cb181d;}
+.red.q7-9 {fill: #a50f15;}
+.red.q8-9 {fill: #67000d;}
+.green.q0-9 {fill: #f7fcf5;}
+.green.q1-9 {fill: #e5f5e0;}
+.green.q2-9 {fill: #c7e9c0;}
+.green.q3-9 {fill: #a1d99b;}
+.green.q4-9 {fill: #74c476;}
+.green.q5-9 {fill: #41ab5d;}
+.green.q6-9 {fill: #238b45;}
+.green.q7-9 {fill: #006d2c;}
+.green.q8-9 {fill: #00441b;}
+.purple.q0-9 {fill: #fcfbfd;}
+.purple.q1-9 {fill: #efedf5;}
+.purple.q2-9 {fill: #dadaeb;}
+.purple.q3-9 {fill: #bcbddc;}
+.purple.q4-9 {fill: #9e9ac8;}
+.purple.q5-9 {fill: #807dba;}
+.purple.q6-9 {fill: #6a51a3;}
+.purple.q7-9 {fill: #54278f;}
+.purple.q8-9 {fill: #3f007d;}
+.orange.q0-9 {fill: #fff5eb;}
+.orange.q1-9 {fill: #fee6ce;}
+.orange.q2-9 {fill: #fdd0a2;}
+.orange.q3-9 {fill: #fdae6b;}
+.orange.q4-9 {fill: #fd8d3c;}
+.orange.q5-9 {fill: #f16913;}
+.orange.q6-9 {fill: #d94801;}
+.orange.q7-9 {fill: #a63603;}
+.orange.q8-9 {fill: #7f2704;}
+.gray.q0-9 {fill: #ffffff;}
+.gray.q1-9 {fill: #f0f0f0;}
+.gray.q2-9 {fill: #d9d9d9;}
+.gray.q3-9 {fill: #bdbdbd;}
+.gray.q4-9 {fill: #969696;}
+.gray.q5-9 {fill: #737373;}
+.gray.q6-9 {fill: #525252;}
+.gray.q7-9 {fill: #252525;}
+.gray.q8-9 {fill: #000000;}
+.diverging.q0-9 {fill: #762a83;}
+.diverging.q1-9 {fill: #9970ab;}
+.diverging.q2-9 {fill: #c2a5cf;}
+.diverging.q3-9 {fill: #e7d4e8;}
+.diverging.q4-9 {fill: #f7f7f7;}
+.diverging.q5-9 {fill: #d9f0d3;}
+.diverging.q6-9 {fill: #a6dba0;}
+.diverging.q7-9 {fill: #5aae61;}
+.diverging.q8-9 {fill: #1b7837;}
+
+.white {fill: #fff;}
+
