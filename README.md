@@ -1,4 +1,4 @@
-# sf-voters
+# sf-maps
 Mapping San Francisco
 
 Make Choropleths by:
