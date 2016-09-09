@@ -1,3 +1,5 @@
+// manipulate json files to save as csv sheets
+
 // contains ES6 code
 "use strict";
 const fs = require('fs')

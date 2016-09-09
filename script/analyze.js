@@ -1,3 +1,5 @@
+// get metadata on topojson files and save as json file
+
 // contains ES6 code
 "use strict";
 const fs = require('fs')
