@@ -1,7 +1,7 @@
 # sf-maps
 Mapping San Francisco
 
-Make Choropleths by:
+## Make Choropleths by:
 - census tracts
 - city assessor lots (blocklots)
 - election precincts
@@ -10,6 +10,10 @@ Make Choropleths by:
 - neighborhoods - health dept
 - supervisor districts
 - zip codes
+
+## geometries
+look in `data/geometa.json` to see which geometries are available and which ids go along 
+
 
 Data from [DataSF](https://data.sfgov.org/)
 
