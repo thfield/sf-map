@@ -4,12 +4,13 @@ var mapElement = d3.select("#map_container")
 var theDataFile = 'data/example/district-pop.csv' // csv file containing data to be mapped
 var idProperty = 'district'  // geometry-identifying property in csv datafile
 var dataProperty = 'total' // property in csv datafile containing data of interest
-var color = 'blues'
+var color = 'Blues' // color is set by css class, see styles.css for available colors
 /* end user set variables */
 
 var theMetadata
 var theMapFile
 var topoKey
+var csvData
 
 var choropleth = sfChoropleth()
   .width(parseInt(mapElement.style('width')))
@@ -63,6 +64,7 @@ d3.json('data/geometa.json', function(err, data){
   dataobj = data.data.find(function(el){ return el.file === whatMap })
   theMapFile = data.path + dataobj.file + data.filetype
   topoKey = dataobj.geoproperty
+  choropleth.geo(topoKey)
   var q = d3.queue()
   q.defer(d3.csv, theDataFile)
   q.defer(d3.json, theMapFile)
@@ -70,13 +72,19 @@ d3.json('data/geometa.json', function(err, data){
 })
 
 function renderMap (error, data, mapdata) {
-  if (error) console.error( error)
-
-  mapDict = dataToDict(data, idProperty, dataProperty)
+  if (error) console.error(error)
+  csvData = data
+  var mapDict = dataToDict(csvData, idProperty, dataProperty)
   var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
-
-  choropleth.geo(topoKey).colorDomain(exten).data(mapDict)
+  choropleth.colorDomain(exten).data(mapDict)
   mapElement.datum(mapdata).call(choropleth)
+}
+
+function changeData(dataProperty){
+  var mapDict = dataToDict(csvData, idProperty, dataProperty)
+  var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
+  choropleth.colorDomain(exten).data(mapDict)
+  mapElement.call(choropleth)
 }
 
 function dataToDict (data, idProp, dataProp) {
@@ -93,16 +101,6 @@ function dataToDict (data, idProp, dataProp) {
   return nested
 }
 
-function preload (obj) {
-  for (prop in obj){
-    // make sure numbers that were read as strings are changed to numbers
-    if(!isNaN(+obj[prop])) obj[prop] = +obj[prop]
-    // if a value is an empty string, assume it should be 0
-    if(obj[prop] === "") obj[prop] = 0
-  }
-  return obj
-}
-
 function minOfObjDict (obj) {
   var result = Object.keys(obj).reduce(function(a, b){ return obj[a] < obj[b] ? a : b });
   return obj[result]
@@ -111,13 +109,22 @@ function maxOfObjDict (obj) {
   var result = Object.keys(obj).reduce(function(a, b){ return +obj[a] > +obj[b] ? a : b });
   return obj[result]
 }
+
 // function toTitleCase(str){
 //     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 // }
 // function roundToHundredth(num){
 //   return Math.round(100*num)/100
 // }
-
+// function preload (obj) {
+//   for (prop in obj){
+//     // make sure numbers that were read as strings are changed to numbers
+//     if(!isNaN(+obj[prop])) obj[prop] = +obj[prop]
+//     // if a value is an empty string, assume it should be 0
+//     if(obj[prop] === "") obj[prop] = 0
+//   }
+//   return obj
+// }
 
 
 d3.select(window).on('resize', function(){

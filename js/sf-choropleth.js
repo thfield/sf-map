@@ -1,9 +1,13 @@
 function sfChoropleth() {
 
-  var margin = {top: 5, right: 5, bottom: 30, left: 25},
-      width = 300,
-      height = width,
-      active = d3.select(null)
+  var margin = {top: 5, right: 5, bottom: 30, left: 25}
+  var width = 300
+  var height = width
+  var quanta = 9
+  var active = d3.select(null)
+  var data = {}
+  var geo = "districts" // objects key in topojson file
+  var cssClass = 'Blues' // colors from colorbrewer.css
 
   var projection = d3.geo.mercator()
       .center([-122.433701, 37.767683])
@@ -14,12 +18,12 @@ function sfChoropleth() {
       .projection(projection)
 
   var colorScale = d3.scale.quantize()
-  colorScale.range(rangeArray(9))
-  colorScale.domain([0,1])
+      colorScale.range(rangeArray(quanta))
+      colorScale.domain([0,1])
 
-  var data = {}
-  var geo = "districts" // objects key in topojson file
-  var cssClass = 'blues'
+  var legend = d3.legend.color()
+    .labelFormat(d3.format("f"))
+    .useClass(true)
 
   function chart(selection) {
     selection.each(function(topodata) {
@@ -28,7 +32,8 @@ function sfChoropleth() {
 
       // Otherwise, create the skeletal map.
       var gEnter = svg.enter().append("svg").append("g")
-      gEnter.append("g").attr('class', 'boundaries-container')
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+              .attr('class', 'boundaries-container ' + cssClass )
 
       // Update the outer dimensions.
       svg .attr("width", width)
@@ -36,27 +41,25 @@ function sfChoropleth() {
 
       // Update the inner dimensions.
       var g = svg.select("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       var boundary = g.selectAll('.boundary').data(topojson.feature(topodata, topodata.objects[geo]).features)
       boundary.enter().append('path').attr('d', path)
       boundary.exit().transition().duration(1000).attr('fill', '#fff' ).remove()
-      boundary.attr('class', function(d){
-          var obj = data[d.id] || ''
-          var colorBin = colorScale(obj)
-          if (d.id === undefined) colorBin = 'white'
-          return geo + ' ' + cssClass + ' ' + colorBin
-        })
+      boundary.attr('class', setQuanta)
 
-      var legendEl = svg.append("g").attr("class", "legendQuant")
-      var legend = d3.legend.color()
-        .labelFormat(d3.format("f"))
-        .useClass(true)
-        .scale(colorScale)
-        legendEl.call(legend)
-        svg.selectAll('.legendCells .swatch')
-          .classed(cssClass, true)
+      svg.select('.legendQuant').remove() //hack to keep using d3.legend TODO lookup how to do redraw the correct way
+      var legendEl = svg.append("g").attr("class", "legendQuant "+ cssClass)
+      // var legendEl = d3.select(this).selectAll("svg").append("g").attr("class", "legendQuant "+ cssClass)
+      legend.scale(colorScale)
+      legendEl.call(legend)
     });
+  }
+
+  function setQuanta(d) {
+    var obj = data[d.id] || ''
+    var colorBin = colorScale(obj)
+    if (d.id === undefined) colorBin = 'white'
+    return geo + ' ' + colorBin
   }
 
   function rangeArray (bins) {
@@ -103,18 +106,19 @@ function sfChoropleth() {
     return chart;
   };
 
-  // height is set by width
+  // height is set by chart.width()
   // chart.height = function(_) {
   //   if (!arguments.length) return height;
   //   height = _;
   //   return chart;
   // };
 
-  chart.colorRange = function(_) {
-    if (!arguments.length) return color.range();
-    colorScale.range(_);
-    return chart;
-  };
+  // range is set by chart.quanta()
+  // chart.colorRange = function(_) {
+  //   if (!arguments.length) return color.range();
+  //   colorScale.range(_);
+  //   return chart;
+  // };
 
   chart.colorDomain = function(_) {
     if (!arguments.length) return color.domain();
@@ -134,6 +138,16 @@ function sfChoropleth() {
     return chart;
   };
 
+  chart.quanta = function(_) {
+    if (!arguments.length) return quanta;
+    quanta = _;
+    colorScale.range(rangeArray(quanta))
+    d3.selectAll('.' + geo).attr('class', setQuanta)
+    legend.scale(colorScale)
+    d3.select('.legendQuant').call(legend)
+    return chart;
+  };
+
   chart.data = function(_) {
     if (!arguments.length) return data;
     data = _;
@@ -142,7 +156,10 @@ function sfChoropleth() {
 
   chart.cssClass = function(_) {
     if (!arguments.length) return cssClass;
+    var oldClass = cssClass
     cssClass = _;
+    d3.select('.boundaries-container').classed(oldClass, false).classed(cssClass, true)
+    d3.select('.legendQuant').classed(oldClass, false).classed(cssClass, true)
     return chart;
   };
 
