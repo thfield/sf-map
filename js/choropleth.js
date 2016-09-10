@@ -1,16 +1,17 @@
-function sfChoropleth() {
+function Choropleth() {
 
   var margin = {top: 5, right: 5, bottom: 30, left: 25}
   var width = 300
   var height = width
   var quanta = 9
-  var active = d3.select(null)
+  // var active = d3.select(null)
   var data = {}
   var geo = "districts" // objects key in topojson file
   var cssClass = 'Blues' // colors from colorbrewer.css
+  var centerpoint = [-122.433701, 37.767683]
 
   var projection = d3.geo.mercator()
-      .center([-122.433701, 37.767683])
+      .center(centerpoint)
       .scale(350 * width)
       .translate([width / 2, height / 2])
 
@@ -151,6 +152,12 @@ function sfChoropleth() {
   chart.data = function(_) {
     if (!arguments.length) return data;
     data = _;
+    return chart;
+  };
+
+  chart.centerpoint = function(_) {
+    if (!arguments.length) return centerpoint;
+    centerpoint = _;
     return chart;
   };
 
