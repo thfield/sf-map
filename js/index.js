@@ -1,19 +1,19 @@
-
-/* init values */
-// var theMetadata = ''
-var theMap = 'data/geo/Supervisor_Districts_April_2012.topo.json' // map file needs to be in topojson format
-var theDataFile = 'data/example/district-pop.csv' // csv file containing data to be mapped
+/* user set variables */
+var whatMap = 'Supervisor_Districts_April_2012'
 var mapElement = d3.select("#map_container")
-/* end init values */
+var theDataFile = 'data/example/district-pop.csv' // csv file containing data to be mapped
 var idProperty = 'district'  // geometry-identifying property in csv datafile
 var dataProperty = 'total' // property in csv datafile containing data of interest
-var topoKey = 'districts' // topojson object key
+var color = 'blues'
+/* end user set variables */
+
+var theMetadata
+var theMapFile
+var topoKey
 
 var choropleth = sfChoropleth()
   .width(parseInt(mapElement.style('width')))
-  .geo(topoKey) //get from meta
-  .cssClass('blues')
-
+  .cssClass(color)
 
 /* tooltip dispatcher */
 // var tt = d3.dispatch('init', 'follow', 'hide')
@@ -58,18 +58,24 @@ var choropleth = sfChoropleth()
 // })
 // /* end ui dispatcher */
 
-var q = d3.queue()
-q.defer(d3.csv, theDataFile)
-q.defer(d3.json, theMap)
-q.await(renderMap)
+d3.json('data/geometa.json', function(err, data){
+  theMetadata = data
+  dataobj = data.data.find(function(el){ return el.file === whatMap })
+  theMapFile = data.path + dataobj.file + data.filetype
+  topoKey = dataobj.geoproperty
+  var q = d3.queue()
+  q.defer(d3.csv, theDataFile)
+  q.defer(d3.json, theMapFile)
+  q.await(renderMap)
+})
 
 function renderMap (error, data, mapdata) {
-  if (error) throw error
+  if (error) console.error( error)
 
   mapDict = dataToDict(data, idProperty, dataProperty)
   var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
 
-  choropleth.colorDomain(exten).data(mapDict)
+  choropleth.geo(topoKey).colorDomain(exten).data(mapDict)
   mapElement.datum(mapdata).call(choropleth)
 }
 
@@ -118,20 +124,3 @@ d3.select(window).on('resize', function(){
   var newwidth = parseInt(d3.select('#map_container').style('width'))
   choropleth.width(newwidth).resize()
 });
-// function resize() {
-//   // adjust things when the window size changes
-//   width = parseInt(d3.select('#map_container').style('width'))
-//   height = width
-//   // update projection
-//   projection
-//     .translate([width / 2, height / 2])
-//     .scale(350 * width)
-//   // resize the map container
-//   svg
-//       .style('width', width + 'px')
-//       .style('height', height + 'px')
-//   // resize the map
-//   svg.selectAll('.'+geoClass).attr('d', path);
-//   // map.selectAll('.state').attr('d', path);
-// }
-
