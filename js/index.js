@@ -99,7 +99,30 @@ function renderMap (error, data, mapdata) {
   var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
   choropleth.colorDomain(exten).data(mapDict)
   mapElement.datum(mapdata).call(choropleth)
+
+  var chooserEl = document.getElementById('src-data');
+  Object.keys(csvData[0]).forEach(addOption, chooserEl);
+  chooserEl.onchange = function(){
+    changeData(this.value)
+  }
+
   return null
+}
+
+function addOption(el,i, arr){
+  /**
+  * Add option to select element, intended to be used with Array.forEach():
+  * [1,2].forEach(addOption,document.getElementById('foo'))
+  * @param {Object} el - what will show up as 'value' in the option
+  * @param {Number} i - array index
+  * @param {Array} arr - the array called by forEach
+  * param {} this - passed by forEach as 'this' context
+  */
+  var option = document.createElement("option");
+  option.value = el;
+  option.text = el;
+  if(el != idProperty) //don't append the id as an option
+    this.appendChild(option);
 }
 
 function changeData(dataProperty){

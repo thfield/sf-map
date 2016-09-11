@@ -12,14 +12,19 @@
 
   <script src="vendor/d3.min.js" charset="utf-8"></script>
   <script src="vendor/topojson.js" charset="utf-8"></script>
-  <script src="vendor/index.js"></script><!-- d3.geo.tile.js -->
   <script src="vendor/d3-queue.js"></script>
   <script src="vendor/d3-legend.js"></script>
   <script src="js/choropleth.js"></script>
 </head>
 
 <body>
-    <div id="map_container"></div>
+    <div class="half">
+      <div id="map_container"></div>
+    </div>
+    <div class="half">
+      Categories:
+      <select id="src-data"></select>
+    </div>
     <script src="js/index.js"></script>
 </body>
 
