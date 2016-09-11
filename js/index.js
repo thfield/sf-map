@@ -1,5 +1,5 @@
 /* user set variables */
-var whatMap = 'Supervisor_Districts_April_2012'
+var whatMap = 'Supervisor_Districts_April_2012' // which map, defined in geometa.json
 var theDataFile = 'data/example/district-pop.csv' // csv file containing data to be mapped
 var idProperty = 'district' // geometry-identifying property in csv datafile
 var dataProperty = 'total' // property in csv datafile containing data of interest
@@ -8,9 +8,9 @@ var mapElement = '#map_container'
 /* end user set variables */
 
 // var whatMap = 'zipcodes'
-// var theDataFile = 'data/example/zip-pop.csv' // csv file containing data to be mapped
-// var idProperty = 'zip' // geometry-identifying property in csv datafile
-// var dataProperty = 'population' // property in csv datafile containing data of interest
+// var theDataFile = 'data/example/zip-pop.csv'
+// var idProperty = 'zip'
+// var dataProperty = 'population'
 
 var theMetadata
 var theMapFile

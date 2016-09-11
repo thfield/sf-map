@@ -1,8 +1,3 @@
-/* general */
-body {
-  /* background: #000000; */
-}
-
 svg {
   width: 100%;
   height: 100%;
@@ -12,8 +7,6 @@ path {
   fill: none;
   stroke: #000;
 }
-
-
 
 /* tooltip */
 #tooltip {
@@ -33,44 +26,5 @@ path {
   line-height: 20px;
 }
 
-/* structure */
-.chart-container {
-  /*width: 650px;*/
-  /*height: 650px;*/
-  /*background-color: #e8e8e8;*/
-  display: inline-block;
-}
-
-.about {
-  font-size: .7em;
-}
-
-#map_container {
-  /*height: 500px;*/
-  /*width: 500px;*/
-}
-
-/* osm road map */
-.major_road {
-  stroke: #444;
-}
-.minor_road {
-  stroke: #bbb;
-}
-.highway {
-  stroke: #111;
-  stroke-width: 1.5px;
-}
-
-/* neighborhood map */
-.neighborhood {
-  fill: rgb(177, 168, 153, 0.5);
-  stroke: #383838;
-}
-.neighborhood:hover {
-  fill: rgb(247, 91, 68, 0.5);
-}
-
-/* colors now use colorbrewer.css*/
 .white {fill: #fff;}
 
