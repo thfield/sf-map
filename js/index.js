@@ -35,23 +35,21 @@ var colorSel = document.getElementById('color-scheme');
 colorSel.onchange = function(){ choropleth.colorScheme(this.value) }
 colorSel.value = 'Blues'
 
-var exampleDatasets = [{file: 'censustract-pop.csv',idProperty: 'tract',dataProperty: 'population',maptype: 'censustracts'}, {file: 'district-pop.csv',idProperty: 'district',dataProperty: 'total',maptype: 'Supervisor_Districts_April_2012'}, {file: 'electprecinct-dempres.csv',idProperty: 'precinct',dataProperty: 'registered_voters',maptype: 'elect_precincts'}, {file: 'zip-pop.csv',idProperty: 'zip',dataProperty: 'population',maptype: 'zipcodes'}, {file: 'https://numeracy.co/projects/1LWR2zAGoQH/demographics-by-zip.csv',idProperty: 'ZIP',dataProperty: 'Population',maptype: 'zipcodes'}]
+var exampleDatasets = [{file: 'data/example/censustract-pop.csv',idProperty: 'tract',dataProperty: 'population',maptype: 'censustracts'}, {file: 'data/example/district-pop.csv',idProperty: 'district',dataProperty: 'total',maptype: 'Supervisor_Districts_April_2012'}, {file: 'data/example/electprecinct-dempres.csv',idProperty: 'precinct',dataProperty: 'registered_voters',maptype: 'elect_precincts'}, {file: 'data/example/zip-pop.csv',idProperty: 'zip',dataProperty: 'population',maptype: 'zipcodes'}, {file: 'https://numeracy.co/projects/1LWR2zAGoQH/demographics-by-zip.csv',idProperty: 'ZIP',dataProperty: 'Population',maptype: 'zipcodes'}]
 var dataSelEl = document.getElementById('example-data');
-exampleDatasets.map(function(el){return el.maptype})
+exampleDatasets.map(function(el){return el.file})
   .forEach(addOption,dataSelEl)
 dataSelEl.onchange = function(){
   var val = this.value
   var obj = exampleDatasets.find(function(el){
-    return el.maptype == val
+    return el.file == val
   })
   setMap(obj.maptype)
   idProperty = obj.idProperty
   dataProperty = obj.dataProperty
-  theDataFile = 'data/example/' + obj.file
+  theDataFile = obj.file
+  d3.select('svg').remove()
   startDownloads()
-  var selector = document.getElementById('data-select')
-  selector.parentNode.removeChild(selector)
-  d3.selectAll('.step2').classed('hidden', false)
 }
 dataSelEl.value = ''
 /* end ui demo elements */
