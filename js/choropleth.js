@@ -63,7 +63,7 @@ function Choropleth() {
     var obj = data[d.id] || ''
     var colorBin = colorScale(obj)
     if (d.id === undefined) colorBin = 'white'
-    return geo + ' ' + colorBin
+    return geo + ' boundary ' + colorBin
   }
 
   function rangeArray (bins) {

@@ -28,11 +28,32 @@ var bucketSel = document.getElementById('buckets');
 [3,4,5,6,7,8,9].forEach(addOption, bucketSel);
 bucketSel.onchange = function(){ choropleth.quanta(this.value) }
 bucketSel.value = 5
+
 var colorSel = document.getElementById('color-scheme');
 ['YlGn','YlGnBu','GnBu','BuGn','PuBuGn','PuBu','BuPu','RdPu','PuRd','OrRd','YlOrRd','YlOrBr','Purples','Blues','Greens','Oranges','Reds','Greys','PuOr','BrBG','PRGn','PiYG','RdBu','RdGy','RdYlBu','Spectral','RdYlGn','Accent','Dark2','Paired','Pastel1','Pastel2','Set1','Set2','Set3']
   .forEach(addOption, colorSel);
 colorSel.onchange = function(){ choropleth.colorScheme(this.value) }
 colorSel.value = 'Blues'
+
+var exampleDatasets = [{file: 'censustract-pop.csv',idProperty: 'tract',dataProperty: 'population',maptype: 'censustracts'}, {file: 'district-pop.csv',idProperty: 'district',dataProperty: 'total',maptype: 'Supervisor_Districts_April_2012'}, {file: 'electprecinct-dempres.csv',idProperty: 'precinct',dataProperty: 'registered_voters',maptype: 'elect_precincts'}, {file: 'zip-pop.csv',idProperty: 'zip',dataProperty: 'population',maptype: 'zipcodes'}, {file: 'https://numeracy.co/projects/1LWR2zAGoQH/demographics-by-zip.csv',idProperty: 'ZIP',dataProperty: 'Population',maptype: 'zipcodes'}]
+var dataSelEl = document.getElementById('example-data');
+exampleDatasets.map(function(el){return el.maptype})
+  .forEach(addOption,dataSelEl)
+dataSelEl.onchange = function(){
+  var val = this.value
+  var obj = exampleDatasets.find(function(el){
+    return el.maptype == val
+  })
+  setMap(obj.maptype)
+  idProperty = obj.idProperty
+  dataProperty = obj.dataProperty
+  theDataFile = 'data/example/' + obj.file
+  startDownloads()
+  var selector = document.getElementById('data-select')
+  selector.parentNode.removeChild(selector)
+  d3.selectAll('.step2').classed('hidden', false)
+}
+dataSelEl.value = ''
 /* end ui demo elements */
 
 /* tooltip dispatcher */
@@ -82,12 +103,15 @@ colorSel.value = 'Blues'
 d3.json('data/geometa.json', function(err, data){
   theMetadata = data
   setMap(whatMap)
+  // startDownloads()
+})
+
+function startDownloads(){
   var q = d3.queue()
   q.defer(d3.csv, theDataFile)
   q.defer(d3.json, theMapFile)
   q.await(renderMap)
-})
-
+}
 
 function setMap (whatMap) {
   /**
