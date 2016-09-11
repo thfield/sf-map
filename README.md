@@ -48,20 +48,20 @@ The column heading from your data csv
 CSS-style selector, default `#map_container`
 
 ## After initial render
-The following can also be set before initial render. Use the following JS functions to make changes on the fly
+Use the following JS functions to make changes on the fly
 
 ### choropleth.quanta( *number* )  
-Change number of "Color Buckets".   
+Change number of "Color Buckets". Can also be set before rendering.  
 Where *number* is between 3 and 9. See `vendor/colorbrewer/colorbrewer.css` for available sets  
 Example: `choropleth.quanta(3)`
 
 ### choropleth.colorScheme( *string* )  
-Change color scheme.  
+Change color scheme. Can also be set before rendering.  
 Where *string* is a colorbrewer scale. See `vendor/colorbrewer/colorbrewer.css` for available colors  
 Example: `choropleth.colorScheme('Reds')`  
 
 ### changeData( *string* )  
-Change the data color encoded in choropleth  
+Change the data color encoded initially as `dataProperty`  
 Where *string* is the property of the csv dataset you want mapped.  
 Example: `changeData('population')`
 
