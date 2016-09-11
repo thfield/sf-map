@@ -1,5 +1,4 @@
 function Choropleth() {
-
   var margin = {top: 5, right: 5, bottom: 30, left: 25}
   var width = 300
   var height = width
