@@ -1,5 +1,5 @@
 function Choropleth() {
-  var margin = {top: 5, right: 5, bottom: 30, left: 25}
+  var margin = {top: 5, right: 5, bottom: 5, left: 5}
   var width = 300
   var height = width
   var quanta = 9
@@ -160,7 +160,7 @@ function Choropleth() {
     return chart;
   };
 
-  chart.cssClass = function(_) {
+  chart.colorScheme = function(_) {
     if (!arguments.length) return cssClass;
     var oldClass = cssClass
     cssClass = _;

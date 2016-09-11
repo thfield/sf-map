@@ -1,20 +1,26 @@
 /* user set variables */
 var whatMap = 'Supervisor_Districts_April_2012'
-var mapElement = d3.select("#map_container")
 var theDataFile = 'data/example/district-pop.csv' // csv file containing data to be mapped
 var idProperty = 'district' // geometry-identifying property in csv datafile
 var dataProperty = 'total' // property in csv datafile containing data of interest
 var color = 'Blues' // color is set by css class, see styles.css for available colors
+var mapElement = '#map_container'
 /* end user set variables */
+
+// var whatMap = 'zipcodes'
+// var theDataFile = 'data/example/zip-pop.csv' // csv file containing data to be mapped
+// var idProperty = 'zip' // geometry-identifying property in csv datafile
+// var dataProperty = 'population' // property in csv datafile containing data of interest
 
 var theMetadata
 var theMapFile
 var topoKey
 var csvData
+var mapElement = d3.select(mapElement)
 
 var choropleth = Choropleth()
 .width(parseInt(mapElement.style('width')))
-.cssClass(color)
+.colorScheme(color)
 
 /* tooltip dispatcher */
 // var tt = d3.dispatch('init', 'follow', 'hide')
