@@ -18,12 +18,14 @@ function Choropleth() {
       .projection(projection)
 
   var colorScale = d3.scale.quantize()
-      colorScale.range(rangeArray(quanta))
-      colorScale.domain([0,1])
+        .range(rangeArray(quanta))
+        .domain([0,1])
 
   var legend = d3.legend.color()
     .labelFormat(d3.format("f"))
     .useClass(true)
+
+  var pristine = true
 
   function chart(selection) {
     selection.each(function(topodata) {
@@ -52,6 +54,8 @@ function Choropleth() {
       // var legendEl = d3.select(this).selectAll("svg").append("g").attr("class", "legendQuant "+ cssClass)
       legend.scale(colorScale)
       legendEl.call(legend)
+
+      pristine = false
     });
   }
 
@@ -142,9 +146,11 @@ function Choropleth() {
     if (!arguments.length) return quanta;
     quanta = _;
     colorScale.range(rangeArray(quanta))
-    d3.selectAll('.' + geo).attr('class', setQuanta)
-    legend.scale(colorScale)
-    d3.select('.legendQuant').call(legend)
+    if (!pristine){
+      d3.selectAll('.' + geo).attr('class', setQuanta)
+      legend.scale(colorScale)
+      d3.select('.legendQuant').call(legend)
+    }
     return chart;
   };
 

@@ -7,10 +7,10 @@ var color = 'Blues' // color is set by css class, see styles.css for available c
 var mapElement = '#map_container'
 /* end user set variables */
 
-whatMap = 'zipcodes'
-theDataFile = 'https://numeracy.co/projects/1LWR2zAGoQH/demographics-by-zip.csv'
-idProperty = 'ZIP'
-dataProperty = 'Population'
+// whatMap = 'zipcodes'
+// theDataFile = 'https://numeracy.co/projects/1LWR2zAGoQH/demographics-by-zip.csv'
+// idProperty = 'ZIP'
+// dataProperty = 'Population'
 
 var theMetadata
 var theMapFile
@@ -21,6 +21,19 @@ var mapElement = d3.select(mapElement)
 var choropleth = Choropleth()
 .width(parseInt(mapElement.style('width')))
 .colorScheme(color)
+.quanta(5)
+
+/* ui demo elements */
+var bucketSel = document.getElementById('buckets');
+[3,4,5,6,7,8,9].forEach(addOption, bucketSel);
+bucketSel.onchange = function(){ choropleth.quanta(this.value) }
+bucketSel.value = 5
+var colorSel = document.getElementById('color-scheme');
+['YlGn','YlGnBu','GnBu','BuGn','PuBuGn','PuBu','BuPu','RdPu','PuRd','OrRd','YlOrRd','YlOrBr','Purples','Blues','Greens','Oranges','Reds','Greys','PuOr','BrBG','PRGn','PiYG','RdBu','RdGy','RdYlBu','Spectral','RdYlGn','Accent','Dark2','Paired','Pastel1','Pastel2','Set1','Set2','Set3']
+  .forEach(addOption, colorSel);
+colorSel.onchange = function(){ choropleth.colorScheme(this.value) }
+colorSel.value = 'Blues'
+/* end ui demo elements */
 
 /* tooltip dispatcher */
 // var tt = d3.dispatch('init', 'follow', 'hide')
@@ -48,6 +61,7 @@ var choropleth = Choropleth()
 // })
 // tt.init('body')
 /* end tooltip dispatcher */
+
 
 /* ui dispatcher */
 // var ui = d3.dispatch('clickedGeo', 'mouseOver', 'mouseOut')
@@ -102,9 +116,7 @@ function renderMap (error, data, mapdata) {
 
   var chooserEl = document.getElementById('src-data');
   Object.keys(csvData[0]).forEach(addOption, chooserEl);
-  chooserEl.onchange = function(){
-    changeData(this.value)
-  }
+  chooserEl.onchange = function(){ changeData(this.value) }
 
   return null
 }
