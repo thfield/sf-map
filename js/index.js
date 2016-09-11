@@ -7,10 +7,10 @@ var color = 'Blues' // color is set by css class, see styles.css for available c
 var mapElement = '#map_container'
 /* end user set variables */
 
-// var whatMap = 'zipcodes'
-// var theDataFile = 'data/example/zip-pop.csv'
-// var idProperty = 'zip'
-// var dataProperty = 'population'
+whatMap = 'zipcodes'
+theDataFile = 'https://numeracy.co/projects/1LWR2zAGoQH/demographics-by-zip.csv'
+idProperty = 'ZIP'
+dataProperty = 'Population'
 
 var theMetadata
 var theMapFile
@@ -121,7 +121,9 @@ function addOption(el,i, arr){
   var option = document.createElement("option");
   option.value = el;
   option.text = el;
-  if(el != idProperty) //don't append the id as an option
+  if (el === dataProperty)
+    option.selected = true;
+  if (el != idProperty) //don't append the id as an option
     this.appendChild(option);
 }
 
