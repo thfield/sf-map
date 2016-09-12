@@ -16,6 +16,35 @@ Data from [DataSF](https://data.sfgov.org/)
 [Colorbrewer](http://colorbrewer2.org)  
 [d3-legend](http://d3-legend.susielu.com/)  
 
+# Use
+This code uses the pattern from [Towards Reusable Charts](https://bost.ocks.org/mike/chart/).  
+First, you need to have somewhere for the map to go.  Add an element to your html file:  
+```javascript
+<div id="map_container"></div>
+```
+You need to include d3.v3, topojson, d3-queue, d3-legend, and choropleth.js in the `<head>`:
+```javascript
+<script src="vendor/d3.min.js"></script>
+<script src="vendor/topojson.js"></script>
+<script src="vendor/d3-queue.js"></script>
+<script src="vendor/d3-legend.js"></script>
+<script src="js/choropleth.js"></script>
+```
+In your JS file, declare some user-set variables:
+
+- `whatMap` determines the geography drawn  
+- `theDataFile` path to the csv of data to be rendered  
+- `idProperty` the column from the csv that corresponds to the geographic id  
+- `dataProperty` the column of interesting data associated with the geography   
+- `mapElement` DOM element for the map to be drawn in
+
+The `choropleth` variable is where all the magic happens:
+```javascript
+var choropleth = Choropleth()
+...
+d3.select(mapElement).call(choropleth)
+```
+
 # Options
 ## Before initial render
 The following string variables determine how the choropleth gets drawn.
