@@ -1,0 +1,29 @@
+{
+  "name": "sf-map",
+  "version": "1.0.0",
+  "description": "choroplets of San Francisco",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thfield/sf-map.git"
+  },
+  "keywords": [
+    "san francisco",
+    "visualization",
+    "mapping"
+  ],
+  "author": "thfield@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thfield/sf-map/issues"
+  },
+  "homepage": "https://github.com/thfield/sf-map#readme",
+  "dependencies": {
+    "d3": "^4.2.2",
+    "d3-svg-legend": "^2.9.0",
+    "topojson": "^1.6.27"
+  }
+}

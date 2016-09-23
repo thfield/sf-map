@@ -136,7 +136,11 @@ function renderMap (error, data, mapdata) {
   choropleth.colorDomain(exten).data(mapDict)
   mapElement.datum(mapdata).call(choropleth)
 
-  var chooserEl = document.getElementById('src-data');
+  var chooserEl = document.getElementById('src-data')
+
+  while (chooserEl.firstChild) {
+    chooserEl.removeChild(chooserEl.firstChild)
+  }
   Object.keys(csvData[0]).forEach(addOption, chooserEl);
   chooserEl.onchange = function(){ changeData(this.value) }
 
