@@ -24,6 +24,7 @@
   "dependencies": {
     "d3": "^4.2.2",
     "d3-svg-legend": "^2.9.0",
-    "topojson": "^1.6.27"
+    "topojson": "^1.6.27",
+    "turf": "^3.0.14"
   }
 }

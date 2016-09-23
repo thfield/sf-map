@@ -13,6 +13,7 @@ function Choropleth() {
       .center(centerpoint)
       .scale(350 * width)
       .translate([width / 2, height / 2])
+  //TODO implement auto-centering: http://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
 
   var path = d3.geo.path()
       .projection(projection)
