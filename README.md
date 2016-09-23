@@ -22,6 +22,7 @@ First, you need to have somewhere for the map to go.  Add an element to your htm
 ```javascript
 <div id="map_container"></div>
 ```
+The tooltip needs styles from `css/stylesheet.css`, specifically those for `#tooltip` and `.hidden`
 You need to include d3.v3, topojson, d3-queue, d3-legend, and choropleth.js in the `<head>`:
 ```javascript
 <script src="vendor/d3.min.js"></script>

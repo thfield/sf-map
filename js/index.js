@@ -54,54 +54,10 @@ dataSelEl.onchange = function(){
 dataSelEl.value = ''
 /* end ui demo elements */
 
-/* tooltip dispatcher */
-// var tt = d3.dispatch('init', 'follow', 'hide')
-// tt.on('init', function(element){
-//   d3.select(element).append('div')
-//       .attr('id', 'tooltip')
-//       .attr('class', 'hidden')
-//     .append('span')
-//       .attr('class', 'value')
-// })
-// tt.on('follow', function(element, caption){
-//   element.on('mousemove', null);
-//   element.on('mousemove', function() {
-//     var position = d3.mouse(document.body);
-//     d3.select('#tooltip')
-//       .style('top', ( (position[1] + 30)) + "px")
-//       .style('left', ( position[0]) + "px");
-//     d3.select('#tooltip .value')
-//       .text(caption)
-//   });
-//   d3.select('#tooltip').classed('hidden', false);
-// })
-// tt.on('hide', function(){
-//   d3.select('#tooltip').classed('hidden', true);
-// })
-// tt.init('body')
-/* end tooltip dispatcher */
-
-
-/* ui dispatcher */
-// var ui = d3.dispatch('clickedGeo', 'mouseOver', 'mouseOut')
-// ui.on('clickedGeo', function(geoId){
-// })
-// ui.on('mouseOver', function(d, el) {
-//   // // populateInfobox(d.id)
-//   // var me = d3.select(el),
-//   // thisText = geoClass + ': ' + d.id
-//   // return tt.follow(me, thisText)
-// })
-// ui.on('mouseOut', function() {
-//   // var table = $('#infobox table')
-//   // table.empty()
-// })
-// /* end ui dispatcher */
-
 d3.json('data/geometa.json', function(err, data){
   theMetadata = data
   setMap(whatMap)
-  // startDownloads()
+  startDownloads() //comment this line to remove draw on load
 })
 
 function startDownloads(){

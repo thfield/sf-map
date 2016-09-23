@@ -1,5 +1,9 @@
-// get metadata on topojson files and save as json file
-// run from root: `$ node script/getmetadata.js`
+/**
+* Get metadata on topojson files and save as json file
+* run from root directory: `$ node script/getmetadata.js [save]`
+* @param {boolean} save - save the output or not, defaults to true
+*
+*/
 
 // contains ES6 code
 "use strict";
@@ -8,6 +12,7 @@ const fs = require('fs')
 let path = 'data/geo/'
 let filetype = '.topo.json'
 let data = []
+let save = process.argv[2] || true
 
 fs.readdir(path,function(err, files){
   files.forEach(file => {
@@ -16,7 +21,8 @@ fs.readdir(path,function(err, files){
       }
   })
   data = {path: path, filetype:filetype, data: data}
-  savemetadata(JSON.stringify(data))
+  if (save)
+    savemetadata(JSON.stringify(data))
 })
 
 function metadata (inputFile) {

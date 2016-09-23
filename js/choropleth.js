@@ -19,14 +19,55 @@ function Choropleth() {
       .projection(projection)
 
   var colorScale = d3.scale.quantize()
-        .range(rangeArray(quanta))
-        .domain([0,1])
+      .range(rangeArray(quanta))
+      .domain([0,1])
 
   var legend = d3.legend.color()
-    .labelFormat(d3.format("f"))
-    .useClass(true)
+      .labelFormat(d3.format("f"))
+      .useClass(true)
 
   var pristine = true
+
+  /* tooltip dispatcher
+  *  set styles in stylesheet
+  *  set content in ui.mouseover var thisText
+  */
+  var tt = d3.dispatch('init', 'follow', 'hide')
+  tt.on('init', function(element){
+    d3.select(element).append('div')
+        .attr('id', 'tooltip')
+        .attr('class', 'hidden')
+      .append('span')
+        .attr('class', 'value')
+  })
+  tt.on('follow', function(element, caption){
+    element.on('mousemove', function() {
+      var position = d3.mouse(document.body);
+      d3.select('#tooltip')
+        .style('top', ( (position[1] + 30)) + "px")
+        .style('left', ( position[0]) + "px");
+      d3.select('#tooltip .value')
+        .text(caption)
+    });
+    d3.select('#tooltip').classed('hidden', false);
+  })
+  tt.on('hide', function(){
+    d3.select('#tooltip').classed('hidden', true);
+  })
+  tt.init('body')
+  /* end tooltip dispatcher */
+
+  /* ui dispatcher */
+  var ui = d3.dispatch('mouseOver', 'mouseOut')
+  ui.on('mouseOver', function(d, el) {
+    var me = d3.select(el)
+    var thisText = singluarize(geo) + ' ' + d.id + ': ' + numberWithCommas(data[d.id])
+    return tt.follow(me, thisText)
+  })
+  ui.on('mouseOut', function() {
+    return tt.hide()
+  })
+  /* end ui dispatcher */
 
   function chart(selection) {
     selection.each(function(topodata) {
@@ -49,15 +90,28 @@ function Choropleth() {
       boundary.enter().append('path').attr('d', path)
       boundary.exit().transition().duration(1000).attr('fill', '#fff' ).remove()
       boundary.attr('class', setQuanta)
+              // .on('click', function(d){ console.log('click') })
+              .on('mouseover', function(d){ ui.mouseOver(d, this) })
+              .on("mouseout", function(d){ ui.mouseOut() } )
 
       svg.select('.legendQuant').remove() //hack to keep using d3.legend TODO lookup how to do redraw the correct way
       var legendEl = svg.append("g").attr("class", "legendQuant "+ cssClass)
-      // var legendEl = d3.select(this).selectAll("svg").append("g").attr("class", "legendQuant "+ cssClass)
       legend.scale(colorScale)
       legendEl.call(legend)
 
       pristine = false
     });
+  }
+
+  function singluarize (str) {
+    // removes the 's' from the end of a string
+    return str.replace(/s$/,'')
+  }
+
+  function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
   }
 
   function setQuanta(d) {
