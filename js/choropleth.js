@@ -10,9 +10,8 @@ function Choropleth() {
   var centerpoint = [-122.433701, 37.767683]
 
   var projection = d3.geo.mercator()
-      .center(centerpoint)
-      .scale(350 * width)
-      .translate([width / 2, height / 2])
+      .scale(1)
+      .translate([0,0])
   //TODO implement auto-centering: http://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
 
   var path = d3.geo.path()
@@ -71,6 +70,16 @@ function Choropleth() {
 
   function chart(selection) {
     selection.each(function(topodata) {
+      var b = path.bounds(topojson.feature(topodata, topodata.objects[geo])),
+          s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+          t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+      debugger
+
+      // Update the projection to use computed scale & translate.
+      projection
+          .scale(s)
+          .translate(t);
+
       // Select the svg element, if it exists.
       var svg = d3.select(this).selectAll("svg").data([topojson.feature(topodata, topodata.objects[geo]).features])
 

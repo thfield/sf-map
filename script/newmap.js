@@ -10,15 +10,16 @@
 
 "use strict";
 const fs = require('fs')
-// const json2csv = require('json2csv')
 const turf = require('turf')
 const topojson = require('topojson')
 
 let path = '../data/geo/'
+let metaFile = '../data/geometa.json'
 
 let file = process.argv[2] // realtor-neighborhoods.geo.json
 let idprop = process.argv[3] // nbrhood
 let save = process.argv[4] || false
+
 analyze(path + file, idprop)
 
 function analyze (file, idprop) {
@@ -26,32 +27,38 @@ function analyze (file, idprop) {
   let outputFile = '' + file.replace('.geo', '.topo')
 
   let geoJson = JSON.parse(fs.readFileSync(inputFile, 'utf8'))
-  //do turf analysis here; topojson modifies the object geoJson
+  let metaData = JSON.parse(fs.readFileSync(metaFile, 'utf8'))
+
+  //do turf analysis first; topojson modifies the object geoJson
   let info = {}
-  info.center = turf.center(geoJson).geometry.coordinates
-  info.centroid = turf.centroid(geoJson).geometry.coordinates
-  info.bounding = turf.bbox(geoJson)//.geometry.coordinates
-  info.west = info.bounding[0]
-  info.east = info.bounding[2]
-  info.scale = 360/Math.abs(info.east - info.west)
+  info.file = file.replace(path, '').replace('.geo.json','')
+  info.geoproperty = idprop
   info.ids = geoJson.features.map((el)=>{
     return el.properties[idprop]
   })
+  info.center = turf.center(geoJson).geometry.coordinates
+  info.centroid = turf.centroid(geoJson).geometry.coordinates
+  info.bbox = turf.bbox(geoJson)//.geometry.coordinates
+  // info.west = info.bounding[0]
+  // info.east = info.bounding[2]
+  // info.scale = 360/Math.abs(info.east - info.west)
 
+  metaData.data.push(info)
 
-  console.log(0.000018704970563954454/0.000012430843125841072)
 
   let topoJson = topojson.topology({ collection: geoJson }, {
     id: function(d) {
       return d.properties["nbrhood"]
-    // },
-    // "property-transform": function(feature) {
-    //   return feature.properties
+    },
+    "property-transform": function(feature) {
+      return feature.properties
     }
   })
 
-  if (save)
+  if (save){
     saveToFile(topoJson,outputFile)
+    saveToFile(metaData, metaFile)
+  }
 }
 
 function saveToFile (json, filename) {
